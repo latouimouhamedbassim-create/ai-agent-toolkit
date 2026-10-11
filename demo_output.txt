@@ -1,0 +1,8 @@
+[demo mode] scripted model, real tools - no API key used
+
+[step 1] calculator({'expression': '2480 * 0.15'}) -> 372.0
+[step 2] write_file({'filename': 'result.txt', 'content': '15% of 2480 = 372.0'}) -> Wrote 19 characters to result.txt
+[step 3] list_files({}) -> result.txt
+
+Final answer:
+15% of 2,480 is 372. I saved the result in result.txt (workspace now contains: result.txt).

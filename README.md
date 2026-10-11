@@ -9,19 +9,33 @@
 
 ---
 
-## ✨ What it does
+## 🎬 Live demo (no API key needed)
 
-Give the agent a goal in plain language. It plans, calls tools, and returns a final answer:
+![Agent demo](assets/agent-demo.png)
+
+Real output of `python agent.py --demo`: a **scripted stand-in for the model** decides the steps, while the **agent loop and all tools are the real code** (the file `result.txt` is genuinely written to `workspace/`).
 
 ```text
-$ python agent.py "What is 15% of 2,480, then save the result in result.txt"
+$ python agent.py --demo
+[demo mode] scripted model, real tools - no API key used
 
 [step 1] calculator({'expression': '2480 * 0.15'}) -> 372.0
-[step 2] write_file({'filename': 'result.txt', 'content': '372.0'}) -> Wrote 5 characters to result.txt
+[step 2] write_file({'filename': 'result.txt', 'content': '15% of 2480 = 372.0'}) -> Wrote 19 characters to result.txt
+[step 3] list_files({}) -> result.txt
 
 Final answer:
-15% of 2,480 is 372. I saved it in result.txt.
+15% of 2,480 is 372. I saved the result in result.txt (workspace now contains: result.txt).
 ```
+
+👉 **Watch it in your browser:** https://latouimouhamedbassim-create.github.io/ai-web-portfolio/demos/agent.html
+
+> ⚠️ Demo mode does not call any AI model. With an `ANTHROPIC_API_KEY`, Claude itself chooses the tools and the answer.
+
+---
+
+## ✨ What it does
+
+Give the agent a goal in plain language. Claude plans, calls tools, observes results and returns a final answer. In Demo mode the same loop runs with a scripted model.
 
 ## 🧰 Built-in tools
 
@@ -30,6 +44,8 @@ Final answer:
 | `calculator` | Safe arithmetic (AST-based, **no `eval`**) |
 | `current_time` | Current date and time |
 | `list_files` / `read_file` / `write_file` | Sandboxed file access inside `workspace/` |
+
+**Project files:** `agent.py` (loop) · `tools.py` (tools) · `demo_client.py` (keyless scripted model) · `demo_output.txt` (captured demo run)
 
 ## 🔄 How the agent loop works
 
@@ -60,7 +76,9 @@ cd ai-agent-toolkit
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-cp .env.example .env        # add your ANTHROPIC_API_KEY
+python agent.py --demo      # no API key needed
+
+cp .env.example .env        # add your ANTHROPIC_API_KEY for the real agent
 python agent.py "List my files and tell me the time"
 ```
 
